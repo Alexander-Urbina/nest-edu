@@ -2,7 +2,7 @@ import { IsNotEmpty } from 'class-validator';
 
 export class CreateVideoDto {
   @IsNotEmpty()
-  readonly name: string;
+  readonly title: string;
   @IsNotEmpty()
   readonly description: string;
   readonly url: string;

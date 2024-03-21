@@ -12,21 +12,26 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { Observable, of } from 'rxjs';
-import { CreateVideoDto } from './create-vide.dto';
+import { CreateVideoDto } from './dto/create-video.dto';
+import { VideoService } from './videos.service';
+import { Video } from './interfaces/videos';
 
 @Controller('videos')
 export class VideosController {
+  constructor(private _videoService: VideoService) {}
+
   @Post()
   @UsePipes(ValidationPipe)
-  create(@Body() createVideoDto: CreateVideoDto) {
+  async create(@Body() createVideoDto: CreateVideoDto) {
+    this._videoService.create(createVideoDto);
     console.log(createVideoDto);
     return 'This action adds a new video';
   }
 
   @Get()
-  findAll(@Req() req: Request) {
+  async findAll(@Req() req: Request): Promise<Video[]> {
     console.log(req.body);
-    return 'This action returns all videos';
+    return this._videoService.findAll();
   }
 
   @Get('ab*cd')
